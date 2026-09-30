@@ -2,7 +2,7 @@
 
 import { useRef } from "react"
 
-import { gsap, useGSAP } from "@/lib/gsap"
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap"
 
 export function MongoFloat({ className }: { className?: string }) {
   const ref = useRef<HTMLVideoElement>(null)
@@ -17,15 +17,28 @@ export function MongoFloat({ className }: { className?: string }) {
       repeat: -1,
       yoyo: true,
     })
+
+    // La patada se reproduce una vez; al salir del hero y volver con el scroll
+    // se repite desde el principio
+    const video = ref.current
+    if (!video) return
+    ScrollTrigger.create({
+      trigger: video.closest("section") ?? video,
+      start: "top top",
+      end: "bottom top",
+      onEnterBack: () => {
+        video.currentTime = 0
+        video.play()
+      },
+    })
   })
 
   return (
     <video
       ref={ref}
-      src="/video/mongo-fin.webm"
+      src="/video/mongo-patada-horizontal.webm"
       autoPlay
       muted
-      loop
       playsInline
       preload="auto"
       aria-hidden="true"

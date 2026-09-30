@@ -17,6 +17,11 @@ const secciones = [
   { title: "Sección 2", href: "#seccion-2" },
 ]
 
+// Todas las secciones miden lo mismo
+const seccionBase = "relative flex min-h-[600px] items-center py-24"
+
+const colores = ["#f4a261", "#2a9d8f", "#e9c46a", "#e76f51"]
+
 export default function Page() {
   return (
     <>
@@ -78,13 +83,15 @@ export default function Page() {
             sizes="100vw"
             className="object-cover"
           />
-          <MongoFloat className="absolute bottom-[4%] left-[64%] w-[20%]" />
+          {/* El vídeo es 16:9 con el personaje pequeño dentro: se escala para que
+              el personaje quede del mismo tamaño y sitio que antes */}
+          <MongoFloat className="absolute bottom-[-6%] left-[29%] w-[71%] max-w-none" />
         </div>
       </section>
 
       <section
         id="seccion-2"
-        className="relative flex items-center overflow-hidden py-24"
+        className={cn(seccionBase, "overflow-hidden")}
       >
         <video
           src="/video/caballo.webm"
@@ -121,9 +128,29 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="bg-black py-24 text-white">
-        <div className="mx-auto max-w-[1368px] px-4" />
+      <section id="seccion-3" className={cn(seccionBase, "bg-black text-white")}>
+        {/* El monstruo es más alto que la sección: se apoya abajo y sobresale
+            por encima, invadiendo la sección anterior */}
+        <Image
+          src="/image/monster-isolated.webp"
+          alt=""
+          width={959}
+          height={1351}
+          sizes="500px"
+          className="absolute bottom-0 left-[max(1rem,calc((100%-1368px)/2+1rem))] z-10 h-[700px] w-auto max-w-none"
+        />
       </section>
+
+      {colores.map((color, i) => (
+        <section
+          key={color}
+          id={`seccion-${i + 4}`}
+          className={seccionBase}
+          style={{ backgroundColor: color }}
+        >
+          <div className="mx-auto w-full max-w-[1368px] px-4" />
+        </section>
+      ))}
     </>
   )
 }
