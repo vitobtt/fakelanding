@@ -1,6 +1,7 @@
 import Image from "next/image"
 
 import { MongoFloat } from "@/components/mongo-float"
+import { SunRise } from "@/components/sun-rise"
 import { Button } from "@/components/ui/button"
 import {
   NavigationMenu,
@@ -20,7 +21,9 @@ const secciones = [
 // Todas las secciones miden lo mismo
 const seccionBase = "relative flex min-h-[600px] items-center py-24"
 
-const colores = ["#f4a261", "#2a9d8f", "#e9c46a", "#e76f51"]
+// Degradado tipo atardecer: cada sección empieza con el color de la anterior
+// (la primera, con el negro de la sección del monstruo) y acaba en el suyo
+const colores = ["#3b1d4a", "#a3406f", "#ef7f6a", "#f7c59f"]
 
 export default function Page() {
   return (
@@ -66,15 +69,7 @@ export default function Page() {
             se posicionan en % sobre él para que no se descuadren */}
         <div className="absolute bottom-0 left-1/2 aspect-[2944/1015] w-[max(100%,720px)] -translate-x-1/2"
         >
-          <Image
-            src="/image/the-sun.webp"
-            alt=""
-            width={860}
-            height={1111}
-            priority
-            sizes="18vw"
-            className="absolute bottom-[46%] left-[12.5%] w-[18%]"
-          />
+          <SunRise className="absolute bottom-[46%] left-[12.5%] w-[18%]" />
           <Image
             src="/image/background.webp"
             alt=""
@@ -83,6 +78,8 @@ export default function Page() {
             sizes="100vw"
             className="object-cover"
           />
+          {/* Funde el borde inferior del paisaje con la sección siguiente */}
+          <div className="absolute inset-x-0 bottom-0 h-[15%] bg-linear-to-b from-transparent to-[#8db8dc]" />
           {/* El vídeo es 16:9 con el personaje pequeño dentro: se escala para que
               el personaje quede del mismo tamaño y sitio que antes */}
           <MongoFloat className="absolute bottom-[-6%] left-[29%] w-[71%] max-w-none" />
@@ -94,7 +91,7 @@ export default function Page() {
         className={cn(seccionBase, "overflow-hidden")}
       >
         <video
-          src="/video/caballo.webm"
+          src="/video/caballo-rugido.webm"
           autoPlay
           muted
           loop
@@ -104,6 +101,10 @@ export default function Page() {
           className="absolute inset-0 size-full -scale-x-100 object-cover"
         />
         <div className="absolute inset-0 bg-blue-600 opacity-50" />
+        {/* Fundidos: arriba con el suelo del paisaje del hero, abajo con el negro
+            de la sección siguiente */}
+        <div className="absolute inset-x-0 top-0 h-48 bg-linear-to-b from-[#8db8dc] to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-linear-to-t from-black to-transparent" />
         <div className="relative mx-auto grid w-full max-w-[1368px] grid-cols-1 gap-8 px-4 md:grid-cols-2">
           <div className="flex min-h-[300px] items-center justify-center">
             <h2 className="max-w-[500px] font-montserrat text-[clamp(2.5rem,4vw,3.5rem)] leading-[1] font-bold tracking-[-0.04em] text-neutral-700">
@@ -146,7 +147,9 @@ export default function Page() {
           key={color}
           id={`seccion-${i + 4}`}
           className={seccionBase}
-          style={{ backgroundColor: color }}
+          style={{
+            backgroundImage: `linear-gradient(to bottom, ${colores[i - 1] ?? "#000"}, ${color})`,
+          }}
         >
           <div className="mx-auto w-full max-w-[1368px] px-4" />
         </section>

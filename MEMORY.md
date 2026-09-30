@@ -14,7 +14,7 @@ Landing page hecha con Next.js 16, React 19, Tailwind CSS 4, shadcn/ui y GSAP.
      después de que haya salido del todo de la pantalla (ScrollTrigger).
    - Los tres van posicionados en % dentro del mismo contenedor para no descuadrarse. El vídeo de mongo
      es 16:9 con el personaje pequeño, por eso se escala a `w-[71%]`.
-3. **Sección 2** (`#seccion-2`): fondo con `public/video/caballo.webm` invertido en espejo y capa azul al 50%.
+3. **Sección 2** (`#seccion-2`): fondo con `public/video/caballo-rugido.webm` invertido en espejo y capa azul al 50%.
    Dos columnas centradas con flex:
    - Columna 1: titular en Montserrat negrita.
    - Columna 2: `caballo.webm` en 16:9, redondeado, con sombra y capa negra al 50%.
